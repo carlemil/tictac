@@ -6,7 +6,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		TwoPlayerBoardGame tt = new TicTac();
+		TicTac tt = new TicTac();
 
 		for(int i=0;i<4;i++){
 			int possibleMoves = tt.getNumberOfPossibleMoves();
@@ -15,6 +15,9 @@ public class Main {
 		
 		tt.printBoard();
 		
+		TicTac tt2 = tt.clone();
+		
+		tt2.printBoard();
 	}
 
 }
