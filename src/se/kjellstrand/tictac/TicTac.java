@@ -35,6 +35,10 @@ public class TicTac implements Cloneable {
 		}
 		return clone;
 	}
+	
+	public Position getPosForIndex(int possibleMoveIndex){
+		return possibleMoves.get(possibleMoveIndex);
+	}
 
 	public GameState makeMove(int possibleMoveIndex) {
 		Position pos = possibleMoves.remove(possibleMoveIndex);
