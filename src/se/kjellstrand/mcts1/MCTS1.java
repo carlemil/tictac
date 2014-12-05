@@ -10,8 +10,6 @@ public class MCTS1 {
 	private int[][] winMovesBoard = new int[3][3];
 
 	public GameState makeNextMove(TicTac tt) {
-		System.out.println("");
-
 		GameState gs = null;
 		int possibleMoveIndex = -1;
 		long time = System.currentTimeMillis();
@@ -25,12 +23,10 @@ public class MCTS1 {
 
 			// playout random play
 			while (gs == GameState.P1S_TURN || gs == GameState.P2S_TURN) {
-				//System.out.println("gs "+gs);
 				possibleMoves = ttClone.getNumberOfPossibleMoves();
 				int nextMoveIndex = (int) (Math.random() * possibleMoves);
 				gs = ttClone.makeMove(nextMoveIndex);
 			}
-			//System.out.println("gs "+gs);
 			if (gs == GameState.P1_WINS) {
 				winMovesBoard[pos.x][pos.y]++;
 			}
@@ -52,8 +48,20 @@ public class MCTS1 {
 				System.out.print(winMovesBoard[x][y] + " ");
 			}
 			System.out.println("");
+
 		}
 		System.out.println("");
+		// select best move and make it
+
+		// print result board
+		System.out.println("total wins");
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < 3; y++) {
+				System.out.print(winMovesBoard[x][y] + " ");
+			}
+			System.out.println("");
+		}
+
 		// select best move and make it
 
 		gs = tt.makeMove(possibleMoveIndex);
