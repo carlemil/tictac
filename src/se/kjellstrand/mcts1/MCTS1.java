@@ -10,6 +10,8 @@ public class MCTS1 {
 	private int[][] winMovesBoard = new int[3][3];
 
 	public GameState makeNextMove(TicTac tt) {
+		System.out.println("");
+
 		GameState gs = null;
 		int possibleMoveIndex = -1;
 		long time = System.currentTimeMillis();
