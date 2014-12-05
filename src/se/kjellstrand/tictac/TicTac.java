@@ -12,6 +12,7 @@ public class TicTac implements Cloneable {
 	private int[][] board;
 
 	private int currentPlayer = PLAYER_1;
+	private Position lastPosition;
 
 	public TicTac() {
 		board = new int[3][3];
@@ -35,21 +36,47 @@ public class TicTac implements Cloneable {
 		return clone;
 	}
 
-	public void makeMove(int possibleMoveIndex) {
+	public GameState makeMove(int possibleMoveIndex) {
 		Position pos = possibleMoves.remove(possibleMoveIndex);
+		lastPosition = pos;
 		board[pos.x][pos.y] = currentPlayer;
+		GameState gs = getGameState();
 		if (currentPlayer == PLAYER_1) {
 			currentPlayer = PLAYER_2;
 		} else {
 			currentPlayer = PLAYER_1;
 		}
+		return gs;
 	}
 
-	protected GameState getGameState(Position pos) {
+	private GameState getGameState() {
 		if (getNumberOfPossibleMoves() == 0) {
 			return GameState.DRAW;
 		}
-		return GameState.P1S_TURN;
+
+		if (board[lastPosition.x][0] == currentPlayer && // Horizontal check
+				board[lastPosition.x][1] == currentPlayer && //
+				board[lastPosition.x][2] == currentPlayer || //
+				board[0][lastPosition.y] == currentPlayer && // Vertical check
+				board[1][lastPosition.y] == currentPlayer && //
+				board[2][lastPosition.y] == currentPlayer || //
+				board[0][0] == currentPlayer && // Cross, up left to down right
+				board[1][1] == currentPlayer && //
+				board[2][2] == currentPlayer || //
+				board[2][0] == currentPlayer && // Cross, up right to down left
+				board[1][1] == currentPlayer && //
+				board[0][2] == currentPlayer) {
+			if (currentPlayer == PLAYER_1) {
+				return GameState.P1_WINS;
+			} else {
+				return GameState.P2_WINS;
+			}
+		}
+		if (currentPlayer == PLAYER_1) {
+			return GameState.P2S_TURN;
+		} else {
+			return GameState.P1S_TURN;
+		}
 	}
 
 	protected ArrayList<Position> getPossibleMoves() {

@@ -8,16 +8,17 @@ public class Main {
 	public static void main(String[] args) {
 		TicTac tt = new TicTac();
 
-		for(int i=0;i<4;i++){
+		for(int i=0;i<8;i++){
 			int possibleMoves = tt.getNumberOfPossibleMoves();
-			tt.makeMove((int)(Math.random()*possibleMoves));
+			GameState gs = tt.makeMove((int)(Math.random()*possibleMoves));
+			tt.printBoard();
+			System.out.println("state: "+gs.toString());
 		}
 		
-		tt.printBoard();
 		
-		TicTac tt2 = tt.clone();
-		
-		tt2.printBoard();
+//		TicTac tt2 = tt.clone();
+//		
+//		tt2.printBoard();
 	}
 
 }
