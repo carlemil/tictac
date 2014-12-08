@@ -15,7 +15,7 @@ public class MCTS1 {
 		GameState gs = null;
 		int possibleMoveIndex = -1;
 		long time = System.currentTimeMillis();
-		while (time + 100 > System.currentTimeMillis()) {
+		while (time + 10 > System.currentTimeMillis()) {
 			TicTac ttClone = tt.clone();
 			int possibleMoves = ttClone.getNumberOfPossibleMoves();
 			possibleMoveIndex = (int) (Math.random() * possibleMoves);

@@ -9,13 +9,12 @@ public class TicTac implements Cloneable {
 
 	private ArrayList<Position> possibleMoves = new ArrayList<Position>();
 
-	private int[][] board;
+	private int[][] board = new int[3][3];
 
 	private int currentPlayer = PLAYER_1;
 	private Position lastPosition;
 
-	public TicTac() {
-		board = new int[3][3];
+	public void init() {
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
 				possibleMoves.add(new Position(x, y));
@@ -35,8 +34,8 @@ public class TicTac implements Cloneable {
 		}
 		return clone;
 	}
-	
-	public Position getPosForIndex(int possibleMoveIndex){
+
+	public Position getPosForIndex(int possibleMoveIndex) {
 		return possibleMoves.get(possibleMoveIndex);
 	}
 
