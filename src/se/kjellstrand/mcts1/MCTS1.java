@@ -10,22 +10,34 @@ public class MCTS1 {
 	private int[][] winMovesBoard = new int[3][3];
 	private int[][] possibleMovesMappingBoard = new int[3][3];
 
+	private GameState iAmPlayer;
+
 	public GameState makeNextMove(TicTac tt) {
 		System.out.println("");
-		
-		int possibleMoves = tt.getNumberOfPossibleMoves();
-		for (int i = 0;i<possibleMoves;i++){
-				Position p = tt.getPosForIndex(i);
-				possibleMovesMappingBoard[p.x][p.y] = i;
+
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < 3; y++) {
+				madeMovesBoard[x][y] = 0;
+				winMovesBoard[x][y] = 0;
+			}
 		}
 
 		GameState gs = null;
-		int possibleMoveIndex = -1;
 		long time = System.currentTimeMillis();
 		while (time + 100 > System.currentTimeMillis()) {
 			TicTac ttClone = tt.clone();
-			possibleMoves = ttClone.getNumberOfPossibleMoves();
-			possibleMoveIndex = (int) (Math.random() * possibleMoves);
+
+			for (int x = 0; x < 3; x++) {
+				for (int y = 0; y < 3; y++) {
+					possibleMovesMappingBoard[x][y] = -2;
+				}
+			}
+			int possibleMoves = ttClone.getNumberOfPossibleMoves();
+			for (int i = 0; i < possibleMoves; i++) {
+				Position p = tt.getPosForIndex(i);
+				possibleMovesMappingBoard[p.x][p.y] = i;
+			}
+			int possibleMoveIndex = (int) (Math.random() * possibleMoves);
 			Position pos = ttClone.getPosForIndex(possibleMoveIndex);
 			madeMovesBoard[pos.x][pos.y]++;
 			gs = ttClone.makeMove(possibleMoveIndex);
@@ -36,7 +48,7 @@ public class MCTS1 {
 				int nextMoveIndex = (int) (Math.random() * possibleMoves);
 				gs = ttClone.makeMove(nextMoveIndex);
 			}
-			if (gs == GameState.P1_WINS) {
+			if (gs.equals(iAmPlayer == GameState.P1S_TURN ? GameState.P1_WINS : GameState.P2_WINS)) {
 				winMovesBoard[pos.x][pos.y]++;
 			}
 		}
@@ -59,7 +71,7 @@ public class MCTS1 {
 				float mm = madeMovesBoard[x][y];
 				float wm = winMovesBoard[x][y];
 				if (mm != 0 && wm != 0) {
-					float score = mm / wm;
+					float score = wm / mm;
 					if (score > bestScore) {
 						bestScore = score;
 						bestScoreX = x;
@@ -72,10 +84,18 @@ public class MCTS1 {
 			}
 			System.out.println("");
 		}
-		
+
 		int bestScoreIndex = possibleMovesMappingBoard[bestScoreX][bestScoreY];
-		System.out.println("\nBest score: " + bestScore + " index: " + bestScoreIndex );
+		System.out.println("\nBest score: " + bestScore + " index: " + bestScoreIndex);
 		return bestScoreIndex;
+	}
+
+	public GameState getIAmPlayer() {
+		return iAmPlayer;
+	}
+
+	public void setIAmPlayer(GameState iAmPlayer) {
+		this.iAmPlayer = iAmPlayer;
 	}
 
 }

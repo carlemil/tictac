@@ -11,16 +11,33 @@ public class Main {
 		TicTac tt = new TicTac();
 		tt.init();
 
-		GameState gs;
+		// TODO skapa random vs mcts1 game å testkör.
 
-		for (int i = 0; i < 2; i++) {
-			int possibleMoves = tt.getNumberOfPossibleMoves();
-			gs = tt.makeMove((int) (Math.random() * possibleMoves));
-			tt.printBoard();
-			System.out.println("state: " + gs.toString());
+		GameState gs = tt.getGameState();
+		mcts1.setIAmPlayer(gs);
+
+		while (gs == GameState.P1S_TURN || gs == GameState.P2S_TURN) {
+			System.out.println("------------- " + gs + " -------------");
+			if (gs == GameState.P1S_TURN) {
+				gs = mcts1.makeNextMove(tt);
+				System.out.println("state: " + gs.toString());
+				tt.printBoard();
+			} else {
+				int possibleMoves = tt.getNumberOfPossibleMoves();
+				gs = tt.makeMove((int) (Math.random() * possibleMoves));
+				System.out.println("state: " + gs.toString());
+				tt.printBoard();
+			}
+			tt.swapPlayer();
 		}
-		System.out.println("evaluate next move");
-		gs = mcts1.makeNextMove(tt);
+
+		/*
+		 * for (int i = 0; i < 2; i++) { int possibleMoves =
+		 * tt.getNumberOfPossibleMoves(); gs = tt.makeMove((int) (Math.random()
+		 * * possibleMoves)); tt.printBoard(); System.out.println("state: " +
+		 * gs.toString()); } System.out.println("evaluate next move"); gs =
+		 * mcts1.makeNextMove(tt);
+		 */
 		// tt.printBoard();
 		// System.out.println("state: "+gs.toString());
 		// TicTac tt2 = tt.clone();

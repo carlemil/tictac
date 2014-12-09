@@ -1,12 +1,13 @@
 package se.kjellstrand.tictac;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-public class MCTS2 <T> {
+public class MCTS2<T> {
 
-	private Set<T> possibleMoves;
-	
+	private ArrayList<T> possibleMoves;
+
 	private Node root = new Node();
 
 	private class Node {
@@ -16,15 +17,29 @@ public class MCTS2 <T> {
 		T move = null;
 	}
 
-	public MCTS2(Set<T> possibleMoves){
+	public MCTS2(ArrayList<T> possibleMoves) {
 		this.possibleMoves = possibleMoves;
 	}
-	
-	public T getNextMove() {
-		
-		
-		return null;
+
+	public int getNextMove(TicTac tt) {
+
+		GameState gs = null;
+
+		long time = System.currentTimeMillis();
+		while (time + 100 > System.currentTimeMillis()) {
+
+			TicTac ttClone = tt.clone();
+
+			while (gs == GameState.P1S_TURN || gs == GameState.P2S_TURN) {
+				possibleMoves = (ArrayList<T>) ttClone.getPossibleMoves();
+				//T nextMove = possibleMoves.get(((int) (Math.random() * possibleMoves.size())));
+				//gs = ttClone.makeMove(nextMove);
+			}
+		}
+
+		T nextMove;
+
+		return 1;//nextMove;
 	}
 
-	
 }

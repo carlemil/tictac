@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 public class TicTac implements Cloneable {
 
-	private static final int PLAYER_1 = 1;
-	private static final int PLAYER_2 = 2;
+	 private static final int PLAYER_1 = 1;
+	 private static final int PLAYER_2 = 2;
 
 	private ArrayList<Position> possibleMoves = new ArrayList<Position>();
 
 	private int[][] board = new int[3][3];
 
-	private int currentPlayer = PLAYER_1;
-	private Position lastPosition;
+	private GameState gs = GameState.P1S_TURN;
+	
+	private Position lastPosition = new Position(0, 0);
 
 	public void init() {
 		for (int x = 0; x < 3; x++) {
@@ -39,24 +40,20 @@ public class TicTac implements Cloneable {
 		return possibleMoves.get(possibleMoveIndex);
 	}
 
-	public GameState makeMove(int possibleMoveIndex) {
-		Position pos = possibleMoves.remove(possibleMoveIndex);
+	public GameState makeMove(int nextMove) {
+		Position pos = possibleMoves.remove(nextMove);
 		lastPosition = pos;
-		board[pos.x][pos.y] = currentPlayer;
+		board[pos.x][pos.y] = gs == GameState.P1S_TURN ? PLAYER_1 : PLAYER_2;
 		GameState gs = getGameState();
-		if (currentPlayer == PLAYER_1) {
-			currentPlayer = PLAYER_2;
-		} else {
-			currentPlayer = PLAYER_1;
-		}
 		return gs;
 	}
 
-	private GameState getGameState() {
-		if (getNumberOfPossibleMoves() == 0) {
-			return GameState.DRAW;
-		}
+	public void swapPlayer() {
+		gs = gs == GameState.P1S_TURN ? GameState.P2S_TURN : GameState.P1S_TURN;
+	}
 
+	GameState getGameState() {
+		int currentPlayer = gs == GameState.P1S_TURN ? PLAYER_1 : PLAYER_2;
 		if (board[lastPosition.x][0] == currentPlayer && // Horizontal check
 				board[lastPosition.x][1] == currentPlayer && //
 				board[lastPosition.x][2] == currentPlayer || //
@@ -69,17 +66,12 @@ public class TicTac implements Cloneable {
 				board[2][0] == currentPlayer && // Cross, up right to down left
 				board[1][1] == currentPlayer && //
 				board[0][2] == currentPlayer) {
-			if (currentPlayer == PLAYER_1) {
-				return GameState.P1_WINS;
-			} else {
-				return GameState.P2_WINS;
-			}
+			return gs == GameState.P1S_TURN ? GameState.P1_WINS : GameState.P2_WINS;
 		}
-		if (currentPlayer == PLAYER_1) {
-			return GameState.P2S_TURN;
-		} else {
-			return GameState.P1S_TURN;
+		if (getNumberOfPossibleMoves() == 0) {
+			return GameState.DRAW;
 		}
+		return gs == GameState.P1S_TURN ? GameState.P1S_TURN : GameState.P2S_TURN;
 	}
 
 	protected ArrayList<Position> getPossibleMoves() {
