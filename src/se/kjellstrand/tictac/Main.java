@@ -6,6 +6,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		MCTS1 mcts1 = new MCTS1();
+		MCTS2 mcts2;
 
 		TicTac tt = new TicTac();
 		tt.init();
