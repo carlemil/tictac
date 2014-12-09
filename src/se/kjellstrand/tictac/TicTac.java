@@ -17,7 +17,8 @@ public class TicTac extends Game implements Cloneable {
 
 	private Position lastPosition = new Position(0, 0);
 
-	public void init() {
+	public void init(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
 				possibleMoves.add(new Position(x, y));

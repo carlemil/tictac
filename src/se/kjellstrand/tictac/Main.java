@@ -12,7 +12,7 @@ public class Main {
 		//MCTS2 mcts2;
 
 		TicTac tt = new TicTac();
-		tt.init();
+		tt.init(Player.PLAYER_1);
 
 		GameState gs = tt.getGameState();
 		Player p = tt.getCurrentPlayer();
