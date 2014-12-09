@@ -2,17 +2,19 @@ package se.kjellstrand.tictac;
 
 import java.util.ArrayList;
 
-public class TicTac implements Cloneable {
+public class TicTac extends Game implements Cloneable {
 
-	 private static final int PLAYER_1 = 1;
-	 private static final int PLAYER_2 = 2;
+	private static final int P1 = 1;
+	private static final int P2 = 2;
 
 	private ArrayList<Position> possibleMoves = new ArrayList<Position>();
 
 	private int[][] board = new int[3][3];
 
-	private GameState gs = GameState.P1S_TURN;
-	
+	private GameState gs = GameState.NEXT;
+
+	private Player currentPlayer = Player.PLAYER_1;
+
 	private Position lastPosition = new Position(0, 0);
 
 	public void init() {
@@ -33,6 +35,9 @@ public class TicTac implements Cloneable {
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			clone.possibleMoves.add(i, possibleMoves.get(i));
 		}
+		clone.currentPlayer = currentPlayer;
+		clone.gs = gs;
+		clone.lastPosition = lastPosition;
 		return clone;
 	}
 
@@ -43,35 +48,40 @@ public class TicTac implements Cloneable {
 	public GameState makeMove(int nextMove) {
 		Position pos = possibleMoves.remove(nextMove);
 		lastPosition = pos;
-		board[pos.x][pos.y] = gs == GameState.P1S_TURN ? PLAYER_1 : PLAYER_2;
+		board[pos.x][pos.y] = currentPlayer == Player.PLAYER_1 ? P1 : P2;
 		GameState gs = getGameState();
+		swapPlayer(gs);
+		//System.out.println("Swap player: " + currentPlayer);
 		return gs;
 	}
 
-	public void swapPlayer() {
-		gs = gs == GameState.P1S_TURN ? GameState.P2S_TURN : GameState.P1S_TURN;
+	private void swapPlayer(GameState gs) {
+		if (gs == GameState.NEXT) {
+			currentPlayer = currentPlayer == Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1;
+		}
 	}
 
 	GameState getGameState() {
-		int currentPlayer = gs == GameState.P1S_TURN ? PLAYER_1 : PLAYER_2;
-		if (board[lastPosition.x][0] == currentPlayer && // Horizontal check
-				board[lastPosition.x][1] == currentPlayer && //
-				board[lastPosition.x][2] == currentPlayer || //
-				board[0][lastPosition.y] == currentPlayer && // Vertical check
-				board[1][lastPosition.y] == currentPlayer && //
-				board[2][lastPosition.y] == currentPlayer || //
-				board[0][0] == currentPlayer && // Cross, up left to down right
-				board[1][1] == currentPlayer && //
-				board[2][2] == currentPlayer || //
-				board[2][0] == currentPlayer && // Cross, up right to down left
-				board[1][1] == currentPlayer && //
-				board[0][2] == currentPlayer) {
-			return gs == GameState.P1S_TURN ? GameState.P1_WINS : GameState.P2_WINS;
+		int p = currentPlayer == Player.PLAYER_1 ? P1 : P2;
+		if (board[lastPosition.x][0] == p && // Horizontal check
+				board[lastPosition.x][1] == p && //
+				board[lastPosition.x][2] == p || //
+				board[0][lastPosition.y] == p && // Vertical check
+				board[1][lastPosition.y] == p && //
+				board[2][lastPosition.y] == p || //
+				board[0][0] == p && // Cross, up left to down right
+				board[1][1] == p && //
+				board[2][2] == p || //
+				board[2][0] == p && // Cross, up right to down left
+				board[1][1] == p && //
+				board[0][2] == p) {
+			return GameState.WIN;
 		}
+
 		if (getNumberOfPossibleMoves() == 0) {
 			return GameState.DRAW;
 		}
-		return gs == GameState.P1S_TURN ? GameState.P1S_TURN : GameState.P2S_TURN;
+		return GameState.NEXT;
 	}
 
 	protected ArrayList<Position> getPossibleMoves() {
@@ -86,9 +96,9 @@ public class TicTac implements Cloneable {
 		for (int x = 0; x < board.length; x++) {
 			for (int y = 0; y < board[0].length; y++) {
 				int p = board[x][y];
-				if (p == PLAYER_1) {
+				if (p == P1) {
 					System.out.print("O");
-				} else if (p == PLAYER_2) {
+				} else if (p == P2) {
 					System.out.print("X");
 				} else {
 					System.out.print("·");
@@ -96,6 +106,10 @@ public class TicTac implements Cloneable {
 			}
 			System.out.println();
 		}
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 }

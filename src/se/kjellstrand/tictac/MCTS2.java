@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import se.kjellstrand.tictac.Game.GameState;
+
 public class MCTS2<T> {
 
 	private ArrayList<T> possibleMoves;
@@ -30,16 +32,18 @@ public class MCTS2<T> {
 
 			TicTac ttClone = tt.clone();
 
-			while (gs == GameState.P1S_TURN || gs == GameState.P2S_TURN) {
+			while (gs == GameState.NEXT) {
+				//TODO Players turn?
 				possibleMoves = (ArrayList<T>) ttClone.getPossibleMoves();
-				//T nextMove = possibleMoves.get(((int) (Math.random() * possibleMoves.size())));
-				//gs = ttClone.makeMove(nextMove);
+				// T nextMove = possibleMoves.get(((int) (Math.random() *
+				// possibleMoves.size())));
+				// gs = ttClone.makeMove(nextMove);
 			}
 		}
 
 		T nextMove;
 
-		return 1;//nextMove;
+		return 1;// nextMove;
 	}
 
 }

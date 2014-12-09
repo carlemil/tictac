@@ -1,6 +1,7 @@
 package se.kjellstrand.mcts1;
 
-import se.kjellstrand.tictac.GameState;
+import se.kjellstrand.tictac.Game.GameState;
+import se.kjellstrand.tictac.Game.Player;
 import se.kjellstrand.tictac.Position;
 import se.kjellstrand.tictac.TicTac;
 
@@ -10,9 +11,9 @@ public class MCTS1 {
 	private int[][] winMovesBoard = new int[3][3];
 	private int[][] possibleMovesMappingBoard = new int[3][3];
 
-	private GameState iAmPlayer;
+	private Player iAmPlayer;
 
-	public GameState makeNextMove(TicTac tt) {
+	public GameState makeNextMove(TicTac tt, Player p) {
 		System.out.println("");
 
 		for (int x = 0; x < 3; x++) {
@@ -34,8 +35,8 @@ public class MCTS1 {
 			}
 			int possibleMoves = ttClone.getNumberOfPossibleMoves();
 			for (int i = 0; i < possibleMoves; i++) {
-				Position p = tt.getPosForIndex(i);
-				possibleMovesMappingBoard[p.x][p.y] = i;
+				Position pos = tt.getPosForIndex(i);
+				possibleMovesMappingBoard[pos.x][pos.y] = i;
 			}
 			int possibleMoveIndex = (int) (Math.random() * possibleMoves);
 			Position pos = ttClone.getPosForIndex(possibleMoveIndex);
@@ -43,13 +44,15 @@ public class MCTS1 {
 			gs = ttClone.makeMove(possibleMoveIndex);
 
 			// playout random play
-			while (gs == GameState.P1S_TURN || gs == GameState.P2S_TURN) {
+			while (gs == GameState.NEXT) {
 				possibleMoves = ttClone.getNumberOfPossibleMoves();
 				int nextMoveIndex = (int) (Math.random() * possibleMoves);
 				gs = ttClone.makeMove(nextMoveIndex);
 			}
-			if (gs.equals(iAmPlayer == GameState.P1S_TURN ? GameState.P1_WINS : GameState.P2_WINS)) {
-				winMovesBoard[pos.x][pos.y]++;
+			if (gs == GameState.WIN) {
+				if (iAmPlayer.equals(ttClone.getCurrentPlayer())) {
+					winMovesBoard[pos.x][pos.y]++;
+				}
 			}
 		}
 
@@ -90,11 +93,11 @@ public class MCTS1 {
 		return bestScoreIndex;
 	}
 
-	public GameState getIAmPlayer() {
+	public Player getIAmPlayer() {
 		return iAmPlayer;
 	}
 
-	public void setIAmPlayer(GameState iAmPlayer) {
+	public void setIAmPlayer(Player iAmPlayer) {
 		this.iAmPlayer = iAmPlayer;
 	}
 
