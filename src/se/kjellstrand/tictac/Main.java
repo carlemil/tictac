@@ -1,9 +1,12 @@
 package se.kjellstrand.tictac;
 
+import javax.swing.text.Position;
+
 import se.kjellstrand.boardgame.BoardGame.Player;
 import se.kjellstrand.boardgame.BoardGame.State;
 import se.kjellstrand.boardgame.GameResult;
 import se.kjellstrand.mcts.MCTS1;
+import se.kjellstrand.mcts.MCTS2;
 
 public class Main {
 
@@ -27,7 +30,7 @@ public class Main {
 
 	private static GameResult playOneGame(Player startingPlayer) {
 		MCTS1 mcts1 = new MCTS1();
-		// MCTS2 mcts2;
+		MCTS2 mcts2 = new MCTS2();
 
 		TicTac tt = new TicTac();
 		// Set the starting player
@@ -37,6 +40,7 @@ public class Main {
 
 		// Set who the ai plays for
 		mcts1.setIAmPlayer(Player.ONE);
+		mcts2.setIAmPlayer(Player.TWO);
 
 		Player p = null;
 		while (gs == State.ONGOING) {
@@ -45,14 +49,12 @@ public class Main {
 			if (p == Player.ONE) {
 				mcts1.makeNextMove(tt, p);
 				gs = tt.getGameState();
-				System.out.println("state: " + gs.toString());
-				tt.printBoard();
 			} else {
-				int possibleMoves = tt.getNumberOfPossibleMoves();
-				gs = tt.makeMove((int) (Math.random() * possibleMoves));
-				System.out.println("state: " + gs.toString());
-				tt.printBoard();
+				mcts2.makeNextMove(tt, p);
+				gs = tt.getGameState();
 			}
+			System.out.println("state: " + gs.toString());
+			tt.printBoard();
 		}
 		return new GameResult(p, gs);
 	}

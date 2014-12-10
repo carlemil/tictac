@@ -45,10 +45,6 @@ public class TicTac extends BoardGame {
 		return clone;
 	}
 
-	public Position getPosForIndex(int possibleMoveIndex) {
-		return possibleMoves.get(possibleMoveIndex);
-	}
-
 	public State makeMove(int nextMove) {
 		Position pos = possibleMoves.remove(nextMove);
 		lastPosition = pos;

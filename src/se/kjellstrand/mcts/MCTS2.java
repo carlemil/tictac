@@ -4,46 +4,50 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import se.kjellstrand.boardgame.BoardGame;
+import se.kjellstrand.boardgame.BoardGame.Player;
 import se.kjellstrand.boardgame.BoardGame.State;
+import se.kjellstrand.boardgame.Position;
 
-public class MCTS2<T> {
+public class MCTS2 {
 
-	private ArrayList<T> possibleMoves;
+	private ArrayList<Position> possibleMoves;
 
 	private Node root = new Node();
+
+	private Player iAmPlayer;
 
 	private class Node {
 		int totalPlays = 0;
 		int totalWins = 0;
-		HashMap<T, MCTS2.Node> children = new HashMap<T, MCTS2.Node>();
-		T move = null;
+		HashMap<Position, MCTS2.Node> children = new HashMap<Position, MCTS2.Node>();
+		Position move = null;
 	}
 
-	public MCTS2(ArrayList<T> possibleMoves) {
-		this.possibleMoves = possibleMoves;
+	public void setIAmPlayer(Player iAmPlayer) {
+		this.iAmPlayer = iAmPlayer;
 	}
 
-	public T getNextMove(BoardGame bg) {
+	public State makeNextMove(BoardGame bg, Player p) {
 
 		State gs = null;
 
 		long time = System.currentTimeMillis();
-		while (time + 100 > System.currentTimeMillis()) {
+		//while (time + 100 > System.currentTimeMillis()) {
 
-			BoardGame bgClone = bg.clone();
+			//BoardGame bgClone = bg.clone();
 
-			while (gs == State.ONGOING) {
-				//TODO Players turn?
-				possibleMoves = (ArrayList<T>) bgClone.getPossibleMoves();
-				// T nextMove = possibleMoves.get(((int) (Math.random() *
-				// possibleMoves.size())));
-				// gs = ttClone.makeMove(nextMove);
-			}
-		}
+			//while (gs == State.ONGOING) {
+				setPossibleMoves((ArrayList<Position>) bg.getPossibleMoves());
+				gs = bg.makeMove((int) (Math.random() * possibleMoves.size()));
+				//return gs;
+			//}
+		//}
 
-		T nextMove = null;
+		return gs;
+	}
 
-		return nextMove;
+	public void setPossibleMoves(ArrayList<Position> possibleMoves) {
+		this.possibleMoves = possibleMoves;
 	}
 
 }
