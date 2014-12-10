@@ -12,14 +12,15 @@ public class Main {
 		//MCTS2 mcts2;
 
 		TicTac tt = new TicTac();
-		tt.init(Player.PLAYER_1);
+		// Set the starting player
+		tt.init(Player.PLAYER_2);
 
 		GameState gs = tt.getGameState();
-		Player p = tt.getCurrentPlayer();
-		mcts1.setIAmPlayer(p);
+		// Set who the ai plays for
+		mcts1.setIAmPlayer(Player.PLAYER_1);
 
 		while (gs == GameState.NEXT) {
-			p = tt.getCurrentPlayer();
+			Player p = tt.getCurrentPlayer();
 			System.out.println("------------- " + p + " -------------");
 			if (p == Player.PLAYER_1) {
 				mcts1.makeNextMove(tt, p);
