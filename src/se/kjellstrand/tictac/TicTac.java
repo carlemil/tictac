@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import se.kjellstrand.boardgame.BoardGame;
 import se.kjellstrand.boardgame.Position;
 
-public class TicTac extends BoardGame implements Cloneable {
+public class TicTac extends BoardGame {
 
 	private static final int P1 = 1;
 	private static final int P2 = 2;

@@ -2,11 +2,9 @@ package se.kjellstrand.mcts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 import se.kjellstrand.boardgame.BoardGame;
 import se.kjellstrand.boardgame.BoardGame.State;
-import se.kjellstrand.tictac.TicTac;
 
 public class MCTS2<T> {
 
@@ -25,27 +23,27 @@ public class MCTS2<T> {
 		this.possibleMoves = possibleMoves;
 	}
 
-	public int getNextMove(TicTac tt) {
+	public T getNextMove(BoardGame bg) {
 
 		State gs = null;
 
 		long time = System.currentTimeMillis();
 		while (time + 100 > System.currentTimeMillis()) {
 
-			TicTac ttClone = tt.clone();
+			BoardGame bgClone = bg.clone();
 
 			while (gs == State.ONGOING) {
 				//TODO Players turn?
-				possibleMoves = (ArrayList<T>) ttClone.getPossibleMoves();
+				possibleMoves = (ArrayList<T>) bgClone.getPossibleMoves();
 				// T nextMove = possibleMoves.get(((int) (Math.random() *
 				// possibleMoves.size())));
 				// gs = ttClone.makeMove(nextMove);
 			}
 		}
 
-		T nextMove;
+		T nextMove = null;
 
-		return 1;// nextMove;
+		return nextMove;
 	}
 
 }

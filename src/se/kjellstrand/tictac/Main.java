@@ -10,8 +10,13 @@ public class Main {
 	public static void main(String[] args) {
 		int win = 0;
 		int games = 0;
-		for (int i = 0; i < 100; i++) {
-			GameResult res = playOneGame(Player.TWO);
+		for (int i = 0; i < 50; i++) {
+			GameResult res;
+			if (i % 2 == 0) {
+				res = playOneGame(Player.ONE);
+			} else {
+				res = playOneGame(Player.TWO);
+			}
 			games++;
 			if (res.player == Player.ONE) {
 				win++;

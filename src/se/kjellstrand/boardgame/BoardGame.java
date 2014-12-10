@@ -3,7 +3,7 @@ package se.kjellstrand.boardgame;
 import java.util.ArrayList;
 
 
-public abstract class BoardGame {
+public abstract class BoardGame implements Cloneable {
 
 	public static enum State {
 		WIN, DRAW, ONGOING
@@ -13,7 +13,7 @@ public abstract class BoardGame {
 		ONE, TWO
 	}
 	
-	
+	public abstract BoardGame clone();
 	
 	public abstract ArrayList<Position> getPossibleMoves();
 	

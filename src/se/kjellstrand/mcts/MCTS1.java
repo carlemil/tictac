@@ -16,7 +16,6 @@ public class MCTS1 {
 	private Player iAmPlayer;
 
 	public State makeNextMove(TicTac tt, Player p) {
-		System.out.println("");
 
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
@@ -70,7 +69,7 @@ public class MCTS1 {
 
 	private int getResults(TicTac tt) {
 		// print result board
-		System.out.println("MCTS1");
+		//System.out.println("MCTS1");
 
 //		System.out.println("madeMovesBoard");
 //		for (int x = 0; x < 3; x++) {
@@ -103,21 +102,21 @@ public class MCTS1 {
 							bestScoreX = x;
 							bestScoreY = y;
 						}
-						System.out.print(String.format("%.2f", score) + " ");
+						//System.out.print(String.format("%.2f", score) + " ");
 					} else {
-						System.out.print("0.01 ");
+						//System.out.print("0.01 ");
 						bestScoreX = x;
 						bestScoreY = y;
 					}
 				} else {
-					System.out.print("0.00 ");
+					//System.out.print("0.00 ");
 				}
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 
 		int bestScoreIndex = possibleMovesMappingBoard[bestScoreX][bestScoreY];
-		System.out.println("\nBest score: " + bestScore + " index: " + bestScoreIndex);
+		//System.out.println("\nBest score: " + bestScore + " index: " + bestScoreIndex);
 		return bestScoreIndex;
 	}
 
