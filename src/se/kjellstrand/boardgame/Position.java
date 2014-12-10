@@ -1,4 +1,4 @@
-package se.kjellstrand.tictac;
+package se.kjellstrand.boardgame;
 
 public class Position {
 	public int x;

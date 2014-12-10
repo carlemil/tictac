@@ -2,7 +2,10 @@ package se.kjellstrand.tictac;
 
 import java.util.ArrayList;
 
-public class TicTac extends Game implements Cloneable {
+import se.kjellstrand.boardgame.BoardGame;
+import se.kjellstrand.boardgame.Position;
+
+public class TicTac extends BoardGame implements Cloneable {
 
 	private static final int P1 = 1;
 	private static final int P2 = 2;
@@ -11,9 +14,9 @@ public class TicTac extends Game implements Cloneable {
 
 	private int[][] board = new int[3][3];
 
-	private GameState gs = GameState.NEXT;
+	private State gs = State.ONGOING;
 
-	private Player currentPlayer = Player.PLAYER_1;
+	private Player currentPlayer = Player.ONE;
 
 	private Position lastPosition = new Position(0, 0);
 
@@ -46,24 +49,24 @@ public class TicTac extends Game implements Cloneable {
 		return possibleMoves.get(possibleMoveIndex);
 	}
 
-	public GameState makeMove(int nextMove) {
+	public State makeMove(int nextMove) {
 		Position pos = possibleMoves.remove(nextMove);
 		lastPosition = pos;
-		board[pos.x][pos.y] = currentPlayer == Player.PLAYER_1 ? P1 : P2;
-		GameState gs = getGameState();
+		board[pos.x][pos.y] = currentPlayer == Player.ONE ? P1 : P2;
+		State gs = getGameState();
 		swapPlayer(gs);
 		//System.out.println("Swap player: " + currentPlayer);
 		return gs;
 	}
 
-	private void swapPlayer(GameState gs) {
-		if (gs == GameState.NEXT) {
-			currentPlayer = currentPlayer == Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1;
+	private void swapPlayer(State gs) {
+		if (gs == State.ONGOING) {
+			currentPlayer = currentPlayer == Player.ONE ? Player.TWO : Player.ONE;
 		}
 	}
 
-	GameState getGameState() {
-		int p = currentPlayer == Player.PLAYER_1 ? P1 : P2;
+	public State getGameState() {
+		int p = currentPlayer == Player.ONE ? P1 : P2;
 		if (board[lastPosition.x][0] == p && // Horizontal check
 				board[lastPosition.x][1] == p && //
 				board[lastPosition.x][2] == p || //
@@ -76,17 +79,21 @@ public class TicTac extends Game implements Cloneable {
 				board[2][0] == p && // Cross, up right to down left
 				board[1][1] == p && //
 				board[0][2] == p) {
-			return GameState.WIN;
+			return State.WIN;
 		}
 
 		if (getNumberOfPossibleMoves() == 0) {
-			return GameState.DRAW;
+			return State.DRAW;
 		}
-		return GameState.NEXT;
+		return State.ONGOING;
 	}
 
-	protected ArrayList<Position> getPossibleMoves() {
+	public ArrayList<Position> getPossibleMoves() {
 		return possibleMoves;
+	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 	public int getNumberOfPossibleMoves() {
@@ -109,8 +116,5 @@ public class TicTac extends Game implements Cloneable {
 		}
 	}
 
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
 
 }

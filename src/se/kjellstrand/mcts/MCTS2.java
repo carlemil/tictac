@@ -1,10 +1,12 @@
-package se.kjellstrand.tictac;
+package se.kjellstrand.mcts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import se.kjellstrand.tictac.Game.GameState;
+import se.kjellstrand.boardgame.BoardGame;
+import se.kjellstrand.boardgame.BoardGame.State;
+import se.kjellstrand.tictac.TicTac;
 
 public class MCTS2<T> {
 
@@ -25,14 +27,14 @@ public class MCTS2<T> {
 
 	public int getNextMove(TicTac tt) {
 
-		GameState gs = null;
+		State gs = null;
 
 		long time = System.currentTimeMillis();
 		while (time + 100 > System.currentTimeMillis()) {
 
 			TicTac ttClone = tt.clone();
 
-			while (gs == GameState.NEXT) {
+			while (gs == State.ONGOING) {
 				//TODO Players turn?
 				possibleMoves = (ArrayList<T>) ttClone.getPossibleMoves();
 				// T nextMove = possibleMoves.get(((int) (Math.random() *
