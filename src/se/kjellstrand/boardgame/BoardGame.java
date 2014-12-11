@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public abstract class BoardGame implements Cloneable {
 
 	public static enum State {
-		WIN, DRAW, ONGOING
+		WIN, LOSS, DRAW, ONGOING
 	}
 
 	public static enum Player {

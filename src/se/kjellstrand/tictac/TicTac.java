@@ -51,7 +51,7 @@ public class TicTac extends BoardGame {
 		board[pos.x][pos.y] = currentPlayer == Player.ONE ? P1 : P2;
 		State gs = getGameState();
 		swapPlayer(gs);
-		//System.out.println("Swap player: " + currentPlayer);
+		// System.out.println("Swap player: " + currentPlayer);
 		return gs;
 	}
 
@@ -62,21 +62,33 @@ public class TicTac extends BoardGame {
 	}
 
 	public State getGameState() {
-		int p = currentPlayer == Player.ONE ? P1 : P2;
-		if (board[lastPosition.x][0] == p && // Horizontal check
-				board[lastPosition.x][1] == p && //
-				board[lastPosition.x][2] == p || //
-				board[0][lastPosition.y] == p && // Vertical check
-				board[1][lastPosition.y] == p && //
-				board[2][lastPosition.y] == p || //
-				board[0][0] == p && // Cross, up left to down right
-				board[1][1] == p && //
-				board[2][2] == p || //
-				board[2][0] == p && // Cross, up right to down left
-				board[1][1] == p && //
-				board[0][2] == p) {
-			return State.WIN;
-		}
+		if (board[lastPosition.x][0] == P1 && // Horizontal check
+				board[lastPosition.x][1] == P1 && //
+				board[lastPosition.x][2] == P1 || //
+				board[0][lastPosition.y] == P1 && // Vertical check
+				board[1][lastPosition.y] == P1 && //
+				board[2][lastPosition.y] == P1 || //
+				board[0][0] == P1 && // Cross, up left to down right
+				board[1][1] == P1 && //
+				board[2][2] == P1 || //
+				board[2][0] == P1 && // Cross, up right to down left
+				board[1][1] == P1 && //
+				board[0][2] == P1) {
+			return currentPlayer == Player.ONE ? State.WIN : State.LOSS;
+		} else if (board[lastPosition.x][0] == P2 && // Horizontal check
+				board[lastPosition.x][1] == P2 && //
+				board[lastPosition.x][2] == P2 || //
+				board[0][lastPosition.y] == P2 && // Vertical check
+				board[1][lastPosition.y] == P2 && //
+				board[2][lastPosition.y] == P2 || //
+				board[0][0] == P2 && // Cross, up left to down right
+				board[1][1] == P2 && //
+				board[2][2] == P2 || //
+				board[2][0] == P2 && // Cross, up right to down left
+				board[1][1] == P2 && //
+				board[0][2] == P2) {
+			return currentPlayer == Player.TWO ? State.WIN : State.LOSS;
+		} else
 
 		if (getNumberOfPossibleMoves() == 0) {
 			return State.DRAW;
@@ -87,7 +99,7 @@ public class TicTac extends BoardGame {
 	public ArrayList<Position> getPossibleMoves() {
 		return possibleMoves;
 	}
-	
+
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
@@ -111,6 +123,5 @@ public class TicTac extends BoardGame {
 			System.out.println();
 		}
 	}
-
 
 }

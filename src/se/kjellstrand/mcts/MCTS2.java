@@ -22,6 +22,7 @@ public class MCTS2 {
 		HashMap<Position, MCTS2.Node> children = null;
 		// Position position = null;
 		Node parent = null;
+		BoardGame bg = null;
 	}
 
 	private enum Result {
@@ -34,6 +35,11 @@ public class MCTS2 {
 
 	public State makeNextMove(BoardGame bg, Player p) {
 
+		if(bg!=null){
+			makeRandomMove(bg);
+			return bg.getGameState();
+		}
+		
 		State gs = null;
 		Node expandedNode = null;
 
@@ -55,6 +61,12 @@ public class MCTS2 {
 		finalSelection(expandedNode);
 
 		return gs;
+	}
+	
+	private void makeRandomMove(BoardGame bg){
+		int numberOfPossibleMoves = bg.getPossibleMoves().size();
+		int nextMoveIndex = (int) (Math.random() * numberOfPossibleMoves);
+		bg.makeMove(nextMoveIndex);
 	}
 
 	private Node selection(Node selectedNode) {
@@ -85,9 +97,9 @@ public class MCTS2 {
 		float ni = n.totalPlays;
 		// float t = n.parent != null ? n.parent.totalPlays : 1f;
 		float c = 1.4f;
-		
+
 		// TODO make propper eval
-		
+
 		return (float) Math.random();
 	}
 
@@ -104,13 +116,16 @@ public class MCTS2 {
 	private Result simulation(Node node) {
 		// Run a simulated playout from 'expandedNode' until a result is
 		// achieved.
-		
-		// BoardGame bgClone = bg.clone();
-				// while (gs == State.ONGOING) {
-				// setPossibleMoves((ArrayList<Position>) bg.getPossibleMoves());
-				// gs = bg.makeMove((int) (Math.random() * possibleMoves.size()));
-				// return gs;
-		
+
+		// playout random play
+		State gs = State.ONGOING;
+		BoardGame bg = node.bg.clone();
+		while (gs == State.ONGOING) {
+			int numberOfPossibleMoves = bg.getPossibleMoves().size();
+			int nextMoveIndex = (int) (Math.random() * numberOfPossibleMoves);
+			gs = bg.makeMove(nextMoveIndex);
+		}
+// TODO merga state och result på något vis.
 		return Result.DRAW;
 	}
 
