@@ -7,12 +7,12 @@ import se.kjellstrand.boardgame.Position;
 
 public class TicTac extends BoardGame {
 
-	private static final int P1 = 1;
-	private static final int P2 = 2;
+	private static final byte P1 = 1;
+	private static final byte P2 = 2;
 
 	private ArrayList<Position> possibleMoves = new ArrayList<Position>();
 
-	private int[][] board = new int[3][3];
+	private byte[][] board = new byte[3][3];
 
 	private State gs = State.ONGOING;
 
