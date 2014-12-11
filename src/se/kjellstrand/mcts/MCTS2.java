@@ -52,10 +52,10 @@ public class MCTS2 {
 			expandedNode = expansion(selectedNode);
 
 			// 3. Simulation
-			Result result = simulation(expandedNode);
+			State state = simulation(expandedNode);
 
 			// 4. Backpropagation
-			backpropagation(expandedNode, result);
+			backpropagation(expandedNode, state);
 		}
 
 		finalSelection(expandedNode);
@@ -113,7 +113,7 @@ public class MCTS2 {
 		return expandedNode;
 	}
 
-	private Result simulation(Node node) {
+	private State simulation(Node node) {
 		// Run a simulated playout from 'expandedNode' until a result is
 		// achieved.
 
@@ -125,18 +125,21 @@ public class MCTS2 {
 			int nextMoveIndex = (int) (Math.random() * numberOfPossibleMoves);
 			gs = bg.makeMove(nextMoveIndex);
 		}
-// TODO merga state och result på något vis.
-		return Result.DRAW;
+		//TODO return should depend on player
+		if(bg.getCurrentPlayer() == iAmPlayer){
+			---
+		}
+		return gs;
 	}
 
-	private void backpropagation(Node node, Result result) {
+	private void backpropagation(Node node, State state) {
 		// Update the current move sequence with the simulation result.
 		if (node != null) {
 			node.totalPlays++;
-			if (result == Result.WIN) {
+			if (state == State.WIN) {
 				node.totalWins++;
 			}
-			backpropagation(node.parent, result);
+			backpropagation(node.parent, state);
 		}
 	}
 
