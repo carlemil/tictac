@@ -21,7 +21,7 @@ public class MCTS2 extends BoardGamePlayer {
 		// Position position = null;
 		Node parent = null;
 		BoardGame bg = null;
-		ArrayList<Position> possibleMoves = null;
+		//ArrayList<Position> possibleMoves = null;
 	}
 
 	public MCTS2(Player player) {
@@ -29,6 +29,11 @@ public class MCTS2 extends BoardGamePlayer {
 	}
 
 	public State makeNextMove(BoardGame bg, Player p) {
+		
+		if(root.bg == null) {
+			root.bg = bg;
+			//root.possibleMoves = bg.getPossibleMoves();
+		}
 
 		if (bg == null) {
 			System.out.println("makeNextMove, bg == null");
@@ -39,7 +44,7 @@ public class MCTS2 extends BoardGamePlayer {
 		State gs = null;
 		Node expandedNode = null;
 
-		long time = System.currentTimeMillis();
+		//long time = System.currentTimeMillis();
 		// while (time + 100 > System.currentTimeMillis()) {
 		for(int i=0;i<100;i++){
 			System.out.println("makeNextMove i: "+i);
@@ -111,7 +116,7 @@ public class MCTS2 extends BoardGamePlayer {
 		expandedNode.parent = node;
 		expandedNode.children = new HashMap<Position, MCTS2.Node>(4);
 		expandedNode.bg = node.bg.clone();
-		int move = (int) (Math.random() * expandedNode.possibleMoves.size());
+		int move = (int) (Math.random() * expandedNode.bg.getPossibleMoves().size());
 		expandedNode.bg.makeMove(move);
 		// makeMove will also remove the move from possibleMoves, so no need to
 		// do this manually.
