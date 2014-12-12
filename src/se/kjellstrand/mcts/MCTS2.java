@@ -35,11 +35,11 @@ public class MCTS2 {
 
 	public State makeNextMove(BoardGame bg, Player p) {
 
-		if(bg!=null){
+		if (bg != null) {
 			makeRandomMove(bg);
 			return bg.getGameState();
 		}
-		
+
 		State gs = null;
 		Node expandedNode = null;
 
@@ -62,8 +62,8 @@ public class MCTS2 {
 
 		return gs;
 	}
-	
-	private void makeRandomMove(BoardGame bg){
+
+	private void makeRandomMove(BoardGame bg) {
 		int numberOfPossibleMoves = bg.getPossibleMoves().size();
 		int nextMoveIndex = (int) (Math.random() * numberOfPossibleMoves);
 		bg.makeMove(nextMoveIndex);
@@ -125,11 +125,23 @@ public class MCTS2 {
 			int nextMoveIndex = (int) (Math.random() * numberOfPossibleMoves);
 			gs = bg.makeMove(nextMoveIndex);
 		}
-		//TODO return should depend on player
-		if(bg.getCurrentPlayer() == iAmPlayer){
-			---
+		if (gs.equals(State.DRAW)) {
+			return gs;
 		}
-		return gs;
+		// TODO return should depend on player
+		if (bg.getCurrentPlayer() == iAmPlayer) {
+			if (gs.equals(State.WIN)) {
+				return State.WIN;
+			} else {
+				return State.LOSS;
+			}
+		} else {
+			if (gs.equals(State.WIN)) {
+				return State.LOSS;
+			} else {
+				return State.WIN;
+			}
+		}
 	}
 
 	private void backpropagation(Node node, State state) {

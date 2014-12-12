@@ -1,19 +1,19 @@
 package se.kjellstrand.tictac;
 
-import javax.swing.text.Position;
-
+import se.kjellstrand.boardgame.BoardGame;
 import se.kjellstrand.boardgame.BoardGame.Player;
 import se.kjellstrand.boardgame.BoardGame.State;
 import se.kjellstrand.boardgame.GameResult;
 import se.kjellstrand.mcts.MCTS1;
 import se.kjellstrand.mcts.MCTS2;
+import se.kjellstrand.mcts.RandomPlayer;
 
 public class Main {
 
 	public static void main(String[] args) {
 		int win = 0;
 		int games = 0;
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 1; i++) {
 			GameResult res;
 			if (i % 2 == 0) {
 				res = playOneGame(Player.ONE);
@@ -31,12 +31,13 @@ public class Main {
 	private static GameResult playOneGame(Player startingPlayer) {
 		MCTS1 mcts1 = new MCTS1();
 		MCTS2 mcts2 = new MCTS2();
+		RandomPlayer rp = new RandomPlayer();
 
-		TicTac tt = new TicTac();
+		BoardGame bg = new TicTac();
 		// Set the starting player
-		tt.init(startingPlayer);
+		bg.init(startingPlayer);
 
-		State gs = tt.getGameState();
+		State gs = bg.getGameState();
 
 		// Set who the ai plays for
 		mcts1.setIAmPlayer(Player.ONE);
@@ -44,17 +45,18 @@ public class Main {
 
 		Player p = null;
 		while (gs == State.ONGOING) {
-			p = tt.getCurrentPlayer();
+			p = bg.getCurrentPlayer();
 			System.out.println("------------- " + p + " -------------");
 			if (p == Player.ONE) {
-				mcts1.makeNextMove(tt, p);
-				gs = tt.getGameState();
+				//mcts1.makeNextMove(tt, p);
+				rp.makeNextMove(bg, p);
+				gs = bg.getGameState();
 			} else {
-				mcts2.makeNextMove(tt, p);
-				gs = tt.getGameState();
+				mcts2.makeNextMove(bg, p);
+				gs = bg.getGameState();
 			}
 			System.out.println("state: " + gs.toString());
-			tt.printBoard();
+			bg.printBoard();
 		}
 		return new GameResult(p, gs);
 	}

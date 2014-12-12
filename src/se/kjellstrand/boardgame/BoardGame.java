@@ -22,4 +22,8 @@ public abstract class BoardGame implements Cloneable {
 	public abstract Player getCurrentPlayer();
 	
 	public abstract State makeMove(int nextMove);
+
+	public abstract void init(Player startingPlayer);
+
+	public abstract void printBoard();
 }
