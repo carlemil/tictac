@@ -4,6 +4,7 @@ import se.kjellstrand.boardgame.BoardGame;
 import se.kjellstrand.boardgame.BoardGame.Player;
 import se.kjellstrand.boardgame.BoardGame.State;
 import se.kjellstrand.boardgame.GameResult;
+import se.kjellstrand.mcts.BoardGamePlayer;
 import se.kjellstrand.mcts.MCTS1;
 import se.kjellstrand.mcts.MCTS2;
 import se.kjellstrand.mcts.RandomPlayer;
@@ -13,7 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 		int win = 0;
 		int games = 0;
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 100; i++) {
 			GameResult res;
 			if (i % 2 == 0) {
 				res = playOneGame(Player.ONE);
@@ -29,9 +30,9 @@ public class Main {
 	}
 
 	private static GameResult playOneGame(Player startingPlayer) {
-		MCTS1 mcts1 = new MCTS1(Player.ONE);
-		MCTS2 mcts2 = new MCTS2(Player.ONE);
-		RandomPlayer rp = new RandomPlayer();
+		BoardGamePlayer mcts1 = new MCTS1(Player.ONE);
+		BoardGamePlayer mcts2 = new MCTS2(Player.ONE);
+		BoardGamePlayer rp = new RandomPlayer();
 
 		BoardGame bg = new TicTac();
 		// Set the starting player

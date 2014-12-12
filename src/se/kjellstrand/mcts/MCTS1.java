@@ -5,7 +5,7 @@ import se.kjellstrand.boardgame.BoardGame.State;
 import se.kjellstrand.boardgame.BoardGame;
 import se.kjellstrand.boardgame.Position;
 
-public class MCTS1 {
+public class MCTS1 extends BoardGamePlayer {
 
 	private int[][] madeMovesBoard = new int[3][3];
 	private int[][] winMovesBoard = new int[3][3];

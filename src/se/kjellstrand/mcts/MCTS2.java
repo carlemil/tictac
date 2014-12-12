@@ -8,7 +8,7 @@ import se.kjellstrand.boardgame.BoardGame.Player;
 import se.kjellstrand.boardgame.BoardGame.State;
 import se.kjellstrand.boardgame.Position;
 
-public class MCTS2 {
+public class MCTS2 extends BoardGamePlayer {
 
 	private Node root = new Node();
 
@@ -30,7 +30,8 @@ public class MCTS2 {
 
 	public State makeNextMove(BoardGame bg, Player p) {
 
-		if (bg != null) {
+		if (bg == null) {
+			System.out.println("makeNextMove, bg == null");
 			makeRandomMove(bg);
 			return bg.getGameState();
 		}
@@ -39,9 +40,9 @@ public class MCTS2 {
 		Node expandedNode = null;
 
 		long time = System.currentTimeMillis();
-		int a = 300;
 		// while (time + 100 > System.currentTimeMillis()) {
-		while (a-- != 0) {
+		for(int i=0;i<100;i++){
+			System.out.println("makeNextMove i: "+i);
 			// 1. Selection
 			Node selectedNode = selection(root);
 
@@ -52,7 +53,7 @@ public class MCTS2 {
 			State state = simulation(expandedNode);
 
 			// 4. Backpropagation
-			backpropagation(expandedNode, state);
+			backPropagation(expandedNode, state);
 		}
 
 		finalSelection(expandedNode);
@@ -67,6 +68,7 @@ public class MCTS2 {
 	}
 
 	private Node selection(Node selectedNode) {
+		System.out.println("selection");
 		// Starting at root node R, recursively select optimal child nodes
 		// (explained below) until a leaf node 'selectedNode' is reached.
 		HashMap<Position, Node> children = selectedNode.children;
@@ -101,6 +103,7 @@ public class MCTS2 {
 	}
 
 	private Node expansion(Node node) {
+		System.out.println("expansion");
 		// If 'node' is a not a terminal node (i.e. it does not end
 		// the game) then create one or more child nodes and select one
 		// 'expandedNode'.
@@ -116,6 +119,7 @@ public class MCTS2 {
 	}
 
 	private State simulation(Node node) {
+		System.out.println("simulation");
 		// Run a simulated playout from 'expandedNode' until a result is
 		// achieved.
 
@@ -146,14 +150,15 @@ public class MCTS2 {
 		}
 	}
 
-	private void backpropagation(Node node, State state) {
+	private void backPropagation(Node node, State state) {
+		System.out.println("backpropagation");
 		// Update the current move sequence with the simulation result.
 		if (node != null) {
 			node.totalPlays++;
 			if (state == State.WIN) {
 				node.totalWins++;
 			}
-			backpropagation(node.parent, state);
+			backPropagation(node.parent, state);
 		}
 	}
 

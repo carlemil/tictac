@@ -4,7 +4,7 @@ import se.kjellstrand.boardgame.BoardGame.Player;
 import se.kjellstrand.boardgame.BoardGame.State;
 import se.kjellstrand.boardgame.BoardGame;
 
-public class RandomPlayer {
+public class RandomPlayer extends BoardGamePlayer {
 
 	public State makeNextMove(BoardGame bg, Player p) {
 		int possibleMoves = bg.getPossibleMoves().size();
