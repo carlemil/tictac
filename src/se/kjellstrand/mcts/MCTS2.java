@@ -39,7 +39,7 @@ public class MCTS2 {
 		Node expandedNode = null;
 
 		long time = System.currentTimeMillis();
-		int a = 3;
+		int a = 300;
 		// while (time + 100 > System.currentTimeMillis()) {
 		while (a-- != 0) {
 			// 1. Selection

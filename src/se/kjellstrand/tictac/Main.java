@@ -30,7 +30,7 @@ public class Main {
 
 	private static GameResult playOneGame(Player startingPlayer) {
 		MCTS1 mcts1 = new MCTS1(Player.ONE);
-		MCTS2 mcts2 = new MCTS2(Player.TWO);
+		MCTS2 mcts2 = new MCTS2(Player.ONE);
 		RandomPlayer rp = new RandomPlayer();
 
 		BoardGame bg = new TicTac();
@@ -45,12 +45,11 @@ public class Main {
 			System.out.println("------------- " + p + " -------------");
 			if (p == Player.ONE) {
 				//mcts1.makeNextMove(tt, p);
-				rp.makeNextMove(bg, p);
-				gs = bg.getGameState();
-			} else {
 				mcts2.makeNextMove(bg, p);
-				gs = bg.getGameState();
+			} else {
+				rp.makeNextMove(bg, p);
 			}
+			gs = bg.getGameState();
 			System.out.println("state: " + gs.toString());
 			bg.printBoard();
 		}
