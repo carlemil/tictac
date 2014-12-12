@@ -29,8 +29,8 @@ public class Main {
 	}
 
 	private static GameResult playOneGame(Player startingPlayer) {
-		MCTS1 mcts1 = new MCTS1();
-		MCTS2 mcts2 = new MCTS2();
+		MCTS1 mcts1 = new MCTS1(Player.ONE);
+		MCTS2 mcts2 = new MCTS2(Player.TWO);
 		RandomPlayer rp = new RandomPlayer();
 
 		BoardGame bg = new TicTac();
@@ -38,10 +38,6 @@ public class Main {
 		bg.init(startingPlayer);
 
 		State gs = bg.getGameState();
-
-		// Set who the ai plays for
-		mcts1.setIAmPlayer(Player.ONE);
-		mcts2.setIAmPlayer(Player.TWO);
 
 		Player p = null;
 		while (gs == State.ONGOING) {

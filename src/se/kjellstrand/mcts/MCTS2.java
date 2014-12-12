@@ -10,8 +10,6 @@ import se.kjellstrand.boardgame.Position;
 
 public class MCTS2 {
 
-	private ArrayList<Position> possibleMoves;
-
 	private Node root = new Node();
 
 	private Player iAmPlayer;
@@ -23,14 +21,11 @@ public class MCTS2 {
 		// Position position = null;
 		Node parent = null;
 		BoardGame bg = null;
+		ArrayList<Position> possibleMoves = null;
 	}
 
-	private enum Result {
-		WIN, LOSS, DRAW
-	}
-
-	public void setIAmPlayer(Player iAmPlayer) {
-		this.iAmPlayer = iAmPlayer;
+	public MCTS2(Player player) {
+		this.iAmPlayer = player;
 	}
 
 	public State makeNextMove(BoardGame bg, Player p) {
@@ -44,7 +39,9 @@ public class MCTS2 {
 		Node expandedNode = null;
 
 		long time = System.currentTimeMillis();
-		while (time + 100 > System.currentTimeMillis()) {
+		int a = 3;
+		// while (time + 100 > System.currentTimeMillis()) {
+		while (a-- != 0) {
 			// 1. Selection
 			Node selectedNode = selection(root);
 
@@ -110,6 +107,11 @@ public class MCTS2 {
 		Node expandedNode = new Node();
 		expandedNode.parent = node;
 		expandedNode.children = new HashMap<Position, MCTS2.Node>(4);
+		expandedNode.bg = node.bg.clone();
+		int move = (int) (Math.random() * expandedNode.possibleMoves.size());
+		expandedNode.bg.makeMove(move);
+		// makeMove will also remove the move from possibleMoves, so no need to
+		// do this manually.
 		return expandedNode;
 	}
 
@@ -168,9 +170,4 @@ public class MCTS2 {
 		}
 		return selectedNode;
 	}
-
-	public void setPossibleMoves(ArrayList<Position> possibleMoves) {
-		this.possibleMoves = possibleMoves;
-	}
-
 }

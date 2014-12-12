@@ -13,6 +13,10 @@ public class MCTS1 {
 
 	private Player iAmPlayer;
 
+	public MCTS1(Player player) {
+		this.iAmPlayer = player;
+	}
+
 	public State makeNextMove(BoardGame bg, Player p) {
 
 		for (int x = 0; x < 3; x++) {
@@ -37,7 +41,7 @@ public class MCTS1 {
 			// System.out.println("possiblemoves "+possibleMoves);
 
 			for (int i = 0; i < possibleMoves; i++) {
-				Position pos = getPosForIndex(ttClone,i);
+				Position pos = getPosForIndex(ttClone, i);
 				possibleMovesMappingBoard[pos.x][pos.y] = i;
 			}
 			int possibleMoveIndex = (int) (Math.random() * possibleMoves);
@@ -64,7 +68,6 @@ public class MCTS1 {
 
 		return gs;
 	}
-	
 
 	public Position getPosForIndex(BoardGame bg, int possibleMoveIndex) {
 		return bg.getPossibleMoves().get(possibleMoveIndex);
@@ -87,26 +90,23 @@ public class MCTS1 {
 							bestScoreX = x;
 							bestScoreY = y;
 						}
-						//System.out.print(String.format("%.2f", score) + " ");
+						// System.out.print(String.format("%.2f", score) + " ");
 					} else {
-						//System.out.print("0.01 ");
+						// System.out.print("0.01 ");
 						bestScoreX = x;
 						bestScoreY = y;
 					}
 				} else {
-					//System.out.print("0.00 ");
+					// System.out.print("0.00 ");
 				}
 			}
-			//System.out.println("");
+			// System.out.println("");
 		}
 
 		int bestScoreIndex = possibleMovesMappingBoard[bestScoreX][bestScoreY];
-		//System.out.println("\nBest score: " + bestScore + " index: " + bestScoreIndex);
+		// System.out.println("\nBest score: " + bestScore + " index: " +
+		// bestScoreIndex);
 		return bestScoreIndex;
-	}
-
-	public void setIAmPlayer(Player iAmPlayer) {
-		this.iAmPlayer = iAmPlayer;
 	}
 
 }
